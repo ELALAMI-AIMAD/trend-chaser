@@ -6,7 +6,7 @@ import {
   getFailedJobCount,
   getFailedJobs,
   retryFailedJobs,
-} from "../dead-letter.js"
+} from "../dead-letter"
 
 function addJob(overrides: Partial<Parameters<typeof addFailedJob>[0]> = {}) {
   return addFailedJob({

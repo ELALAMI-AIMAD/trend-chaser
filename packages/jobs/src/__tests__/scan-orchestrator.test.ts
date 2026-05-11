@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import type { SourceCollector, SourceEventInput } from "@trend-chaser/collectors"
-import { clearFailedJobs, getFailedJobs } from "../dead-letter.js"
+import { clearFailedJobs, getFailedJobs } from "../dead-letter"
 
 const mocks = vi.hoisted(() => ({
   collectors: [] as SourceCollector[],
@@ -83,7 +83,7 @@ function failingCollector(id: string): SourceCollector {
 }
 
 async function runDailyScan() {
-  const mod = await import("../scan-orchestrator.js")
+  const mod = await import("../scan-orchestrator")
   return mod.runDailyScan
 }
 

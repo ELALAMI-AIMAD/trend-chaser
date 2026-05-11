@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, afterEach } from "vitest"
 import { AiError, AiErrorCode } from "@trend-chaser/ai"
-import { isRetryable, withRetry, MAX_RETRIES } from "../retry-policy.js"
+import { isRetryable, withRetry, MAX_RETRIES } from "../retry-policy"
 
 function httpError(status: number, message = "HTTP error"): Error {
   return Object.assign(new Error(message), { status })
