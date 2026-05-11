@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { normalizePhrase } from "../normalization/normalize-phrase.js";
+﻿import { describe, it, expect } from "vitest";
+import { normalizePhrase } from "../normalization/normalize-phrase";
 
 describe("normalizePhrase", () => {
   it("lowercases all characters", () => {

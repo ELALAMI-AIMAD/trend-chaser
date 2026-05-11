@@ -1,6 +1,6 @@
-import { vi, describe, it, expect, beforeAll, afterAll } from "vitest"
-import { CalendarCollector, slugify } from "../collectors/calendar.collector.js"
-import type { CollectInput } from "../types.js"
+﻿import { vi, describe, it, expect, beforeAll, afterAll } from "vitest"
+import { CalendarCollector, slugify } from "../collectors/calendar.collector"
+import type { CollectInput } from "../types"
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 

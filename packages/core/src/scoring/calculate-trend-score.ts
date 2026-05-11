@@ -1,4 +1,4 @@
-import type { TrendScore, TrendTemperature, TrendAction } from "../types.js";
+﻿import type { TrendScore, TrendTemperature, TrendAction } from "../types";
 
 /** All scoring dimensions (0-100 each). Higher is always better. */
 export interface ScoreInput {

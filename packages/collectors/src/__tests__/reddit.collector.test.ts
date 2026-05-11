@@ -1,13 +1,13 @@
-import { vi, describe, it, expect, beforeEach } from "vitest"
+﻿import { vi, describe, it, expect, beforeEach } from "vitest"
 
 vi.mock("../clients/reddit.client.js", () => ({
   getPosts: vi.fn(),
 }))
 
-import { getPosts } from "../clients/reddit.client.js"
-import { RedditCollector, filterPost, extractPhrases } from "../collectors/reddit.collector.js"
-import type { CollectInput } from "../types.js"
-import type { RedditPost } from "../clients/reddit.client.js"
+import { getPosts } from "../clients/reddit.client"
+import { RedditCollector, filterPost, extractPhrases } from "../collectors/reddit.collector"
+import type { CollectInput } from "../types"
+import type { RedditPost } from "../clients/reddit.client"
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 

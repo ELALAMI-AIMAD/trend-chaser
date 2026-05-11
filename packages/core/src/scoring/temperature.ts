@@ -1,4 +1,4 @@
-import type { TrendTemperature } from "../types.js";
+﻿import type { TrendTemperature } from "../types";
 
 /** Returns a display label and hex color for a temperature value. */
 export function getTemperatureBadge(

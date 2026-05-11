@@ -1,8 +1,8 @@
-import pLimit from "p-limit"
-import { searchListings } from "../clients/etsy.client.js"
-import type { CollectInput, CollectorConfig, SourceCollector, SourceEventInput } from "../types.js"
-import type { EtsyListing } from "../clients/etsy.client.js"
-import { SEED_QUERIES } from "../constants.js"
+﻿import pLimit from "p-limit"
+import { searchListings } from "../clients/etsy.client"
+import type { CollectInput, CollectorConfig, SourceCollector, SourceEventInput } from "../types"
+import type { EtsyListing } from "../clients/etsy.client"
+import { SEED_QUERIES } from "../constants"
 
 const EXCLUDED_TITLE_TERMS = [
   "wholesale", "bulk order", "custom order",

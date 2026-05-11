@@ -1,5 +1,5 @@
-import Anthropic from "@anthropic-ai/sdk";
-import { AiError, AiErrorCode } from "./types.js";
+﻿import Anthropic from "@anthropic-ai/sdk";
+import { AiError, AiErrorCode } from "./types";
 
 export const POD_SYSTEM_PROMPT =
   "You are a POD trend analyst for Amazon Merch, Etsy, and Redbubble. " +

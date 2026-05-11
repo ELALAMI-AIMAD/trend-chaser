@@ -1,7 +1,7 @@
-import pLimit from "p-limit"
-import { getPosts } from "../clients/reddit.client.js"
-import type { CollectInput, CollectorConfig, SourceCollector, SourceEventInput } from "../types.js"
-import type { RedditPost } from "../clients/reddit.client.js"
+﻿import pLimit from "p-limit"
+import { getPosts } from "../clients/reddit.client"
+import type { CollectInput, CollectorConfig, SourceCollector, SourceEventInput } from "../types"
+import type { RedditPost } from "../clients/reddit.client"
 
 // ── constants ─────────────────────────────────────────────────────────────────
 

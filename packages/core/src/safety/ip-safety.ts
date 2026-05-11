@@ -1,5 +1,5 @@
-import type { IpSafetyCheck, SafetyVerdict } from "../types.js";
-import { checkPhrase, HIGH_RISK_CATEGORIES } from "./restricted-terms.js";
+﻿import type { IpSafetyCheck, SafetyVerdict } from "../types";
+import { checkPhrase, HIGH_RISK_CATEGORIES } from "./restricted-terms";
 
 /**
  * Runs a full IP and trademark safety scan on a trend phrase.

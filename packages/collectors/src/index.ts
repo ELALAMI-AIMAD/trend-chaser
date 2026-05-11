@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @package @trend-chaser/collectors
  *
  * External data collectors for Trend Chaser.
@@ -22,24 +22,24 @@ export type {
   CollectorResult,
   CollectInput,
   SourceCollector,
-} from "./types.js"
+} from "./types"
 
 // ── shared constants ──────────────────────────────────────────────────────────
 
-export { SEED_QUERIES } from "./constants.js"
+export { SEED_QUERIES } from "./constants"
 
 // ── collectors ────────────────────────────────────────────────────────────────
 
-export { RedditCollector }   from "./collectors/reddit.collector.js"
-export { EtsyCollector }     from "./collectors/etsy.collector.js"
-export { AmazonCollector }   from "./collectors/amazon.collector.js"
-export { CalendarCollector } from "./collectors/calendar.collector.js"
+export { RedditCollector }   from "./collectors/reddit.collector"
+export { EtsyCollector }     from "./collectors/etsy.collector"
+export { AmazonCollector }   from "./collectors/amazon.collector"
+export { CalendarCollector } from "./collectors/calendar.collector"
 
-import type { SourceCollector } from "./types.js"
-import { RedditCollector }   from "./collectors/reddit.collector.js"
-import { EtsyCollector }     from "./collectors/etsy.collector.js"
-import { AmazonCollector }   from "./collectors/amazon.collector.js"
-import { CalendarCollector } from "./collectors/calendar.collector.js"
+import type { SourceCollector } from "./types"
+import { RedditCollector }   from "./collectors/reddit.collector"
+import { EtsyCollector }     from "./collectors/etsy.collector"
+import { AmazonCollector }   from "./collectors/amazon.collector"
+import { CalendarCollector } from "./collectors/calendar.collector"
 
 export const COLLECTORS: SourceCollector[] = [
   new RedditCollector(),
@@ -54,7 +54,7 @@ export {
   getAccessToken,
   getPosts,
   searchPosts,
-} from "./clients/reddit.client.js"
+} from "./clients/reddit.client"
 
 // ── clients — Etsy ────────────────────────────────────────────────────────────
 
@@ -62,7 +62,7 @@ export {
   searchListings,
   getListingsByShop,
   getListingImages,
-} from "./clients/etsy.client.js"
+} from "./clients/etsy.client"
 
 // ── clients — Amazon ──────────────────────────────────────────────────────────
 
@@ -70,4 +70,4 @@ export {
   searchProducts,
   buildSearchUrl,
   getProductDetails,
-} from "./clients/amazon.client.js"
+} from "./clients/amazon.client"

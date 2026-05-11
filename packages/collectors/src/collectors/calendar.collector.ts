@@ -1,7 +1,7 @@
-import { subWeeks } from "date-fns"
+﻿import { subWeeks } from "date-fns"
 import { urgency } from "@trend-chaser/core"
 import type { UrgencyLevel } from "@trend-chaser/core"
-import type { CollectInput, CollectorConfig, SourceCollector, SourceEventInput } from "../types.js"
+import type { CollectInput, CollectorConfig, SourceCollector, SourceEventInput } from "../types"
 
 // ── types ─────────────────────────────────────────────────────────────────────
 

@@ -1,5 +1,5 @@
-import { BLOCKED_TERMS } from "@trend-chaser/core";
-import type { AiEnrichmentOutput } from "./types.js";
+﻿import { BLOCKED_TERMS } from "@trend-chaser/core";
+import type { AiEnrichmentOutput } from "./types";
 
 export interface QualityGateFailure {
   gate: string;

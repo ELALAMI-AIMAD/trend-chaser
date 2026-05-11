@@ -1,4 +1,4 @@
-import { vi, describe, it, expect, beforeEach } from "vitest"
+﻿import { vi, describe, it, expect, beforeEach } from "vitest"
 
 vi.mock("../clients/amazon.client.js", () => ({
   searchProducts: vi.fn(),
@@ -7,11 +7,11 @@ vi.mock("../clients/amazon.client.js", () => ({
   ),
 }))
 
-import { searchProducts } from "../clients/amazon.client.js"
-import { AmazonCollector } from "../collectors/amazon.collector.js"
-import { SEED_QUERIES } from "../constants.js"
-import type { CollectInput } from "../types.js"
-import type { AmazonProduct } from "../clients/amazon.client.js"
+import { searchProducts } from "../clients/amazon.client"
+import { AmazonCollector } from "../collectors/amazon.collector"
+import { SEED_QUERIES } from "../constants"
+import type { CollectInput } from "../types"
+import type { AmazonProduct } from "../clients/amazon.client"
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 

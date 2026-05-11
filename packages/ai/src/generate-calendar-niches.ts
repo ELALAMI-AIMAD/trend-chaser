@@ -1,24 +1,24 @@
-import {
+﻿import {
   AiError,
   AiErrorCode,
-} from "./types.js";
+} from "./types";
 import {
   callClaude,
   extractText,
   parseJsonResponse,
   logTokenUsage,
-} from "./anthropic.js";
+} from "./anthropic";
 import {
   CalendarNichesSchema,
   type CalendarNichesOutput,
-} from "./schemas/calendar.schema.js";
+} from "./schemas/calendar.schema";
 import {
   buildCalendarNichesPrompt,
   PROMPT_VERSION,
   type CalendarNichesInput,
-} from "./prompts/calendar-niches.prompt.js";
+} from "./prompts/calendar-niches.prompt";
 
-export type { CalendarNichesInput } from "./prompts/calendar-niches.prompt.js";
+export type { CalendarNichesInput } from "./prompts/calendar-niches.prompt";
 
 export interface CalendarNichesOptions {
   skipCache?: boolean;

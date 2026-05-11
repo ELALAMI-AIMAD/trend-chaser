@@ -1,4 +1,4 @@
-import type { SafetyVerdict } from "../types.js";
+﻿import type { SafetyVerdict } from "../types";
 
 /**
  * Exact phrases that are trademarked, copyrighted, or licensed IP.

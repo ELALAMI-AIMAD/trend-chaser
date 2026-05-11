@@ -1,8 +1,8 @@
-import { describe, it, expect } from "vitest";
+﻿import { describe, it, expect } from "vitest";
 import {
   calculateTrendScore,
   type ScoreInput,
-} from "../scoring/calculate-trend-score.js";
+} from "../scoring/calculate-trend-score";
 
 const perfect: ScoreInput = {
   demand: 100, competition: 100, velocity: 100,

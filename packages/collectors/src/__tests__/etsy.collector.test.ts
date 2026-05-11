@@ -1,13 +1,13 @@
-import { vi, describe, it, expect, beforeEach } from "vitest"
+﻿import { vi, describe, it, expect, beforeEach } from "vitest"
 
 vi.mock("../clients/etsy.client.js", () => ({
   searchListings: vi.fn(),
 }))
 
-import { searchListings } from "../clients/etsy.client.js"
-import { EtsyCollector, filterListing, cleanTitle } from "../collectors/etsy.collector.js"
-import type { CollectInput } from "../types.js"
-import type { EtsyListing } from "../clients/etsy.client.js"
+import { searchListings } from "../clients/etsy.client"
+import { EtsyCollector, filterListing, cleanTitle } from "../collectors/etsy.collector"
+import type { CollectInput } from "../types"
+import type { EtsyListing } from "../clients/etsy.client"
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 

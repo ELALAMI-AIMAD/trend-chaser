@@ -1,4 +1,4 @@
-import type { Platform, UrgencyLevel } from "../types.js";
+﻿import type { Platform, UrgencyLevel } from "../types";
 
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 

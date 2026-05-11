@@ -1,8 +1,8 @@
-import pLimit from "p-limit"
-import { searchProducts } from "../clients/amazon.client.js"
-import type { AmazonProduct } from "../clients/amazon.client.js"
-import type { CollectInput, CollectorConfig, SourceCollector, SourceEventInput } from "../types.js"
-import { SEED_QUERIES } from "../constants.js"
+﻿import pLimit from "p-limit"
+import { searchProducts } from "../clients/amazon.client"
+import type { AmazonProduct } from "../clients/amazon.client"
+import type { CollectInput, CollectorConfig, SourceCollector, SourceEventInput } from "../types"
+import { SEED_QUERIES } from "../constants"
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 

@@ -1,5 +1,5 @@
-import type { TrendCandidate, TrendCandidateFamily } from "../types.js";
-import { normalizePhrase } from "./normalize-phrase.js";
+﻿import type { TrendCandidate, TrendCandidateFamily } from "../types";
+import { normalizePhrase } from "./normalize-phrase";
 
 /**
  * Groups trend candidates by their normalized phrase, merging source arrays

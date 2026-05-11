@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
-import { runQualityGates, runGate } from "../quality-gates.js";
-import type { AiEnrichmentOutput } from "../types.js";
+﻿import { describe, it, expect } from "vitest";
+import { runQualityGates, runGate } from "../quality-gates";
+import type { AiEnrichmentOutput } from "../types";
 
 function makeOutput(overrides: Partial<AiEnrichmentOutput> = {}): AiEnrichmentOutput {
   return {

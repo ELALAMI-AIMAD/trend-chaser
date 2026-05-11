@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { urgency, urgencyToTimingScore, uploadWindow } from "../scoring/urgency.js";
+﻿import { describe, it, expect } from "vitest";
+import { urgency, urgencyToTimingScore, uploadWindow } from "../scoring/urgency";
 
 describe("urgency()", () => {
   it("returns late for negative days", () => {

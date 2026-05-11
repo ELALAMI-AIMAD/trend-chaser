@@ -1,4 +1,4 @@
-// Types
+﻿// Types
 export type {
   Platform,
   TrendTemperature,
@@ -14,30 +14,30 @@ export type {
   ScanRun,
   IpSafetyCheck,
   TrendCandidateFamily,
-} from "./types.js";
+} from "./types";
 
 // Scoring
-export { calculateTrendScore } from "./scoring/calculate-trend-score.js";
-export type { ScoreInput } from "./scoring/calculate-trend-score.js";
-export { urgency, urgencyToTimingScore, uploadWindow } from "./scoring/urgency.js";
+export { calculateTrendScore } from "./scoring/calculate-trend-score";
+export type { ScoreInput } from "./scoring/calculate-trend-score";
+export { urgency, urgencyToTimingScore, uploadWindow } from "./scoring/urgency";
 export {
   getTemperatureBadge,
   getTemperatureIcon,
   compareTemperatures,
-} from "./scoring/temperature.js";
+} from "./scoring/temperature";
 
 // Normalization
-export { normalizePhrase } from "./normalization/normalize-phrase.js";
-export { dedupeCandidates } from "./normalization/dedupe-candidates.js";
+export { normalizePhrase } from "./normalization/normalize-phrase";
+export { dedupeCandidates } from "./normalization/dedupe-candidates";
 
 // Safety
 export {
   BLOCKED_TERMS,
   HIGH_RISK_CATEGORIES,
   checkPhrase,
-} from "./safety/restricted-terms.js";
-export type { PhraseCheckResult } from "./safety/restricted-terms.js";
-export { scanIpSafety } from "./safety/ip-safety.js";
+} from "./safety/restricted-terms";
+export type { PhraseCheckResult } from "./safety/restricted-terms";
+export { scanIpSafety } from "./safety/ip-safety";
 
 // Taxonomy
 export {
@@ -46,5 +46,5 @@ export {
   getAllNiches,
   getSubcategories,
   getNichesByCategory,
-} from "./taxonomy/niches.js";
-export type { Niche, NicheCategory } from "./taxonomy/niches.js";
+} from "./taxonomy/niches";
+export type { Niche, NicheCategory } from "./taxonomy/niches";

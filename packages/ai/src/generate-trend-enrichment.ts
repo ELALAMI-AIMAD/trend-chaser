@@ -1,23 +1,23 @@
-import { checkPhrase } from "@trend-chaser/core";
+﻿import { checkPhrase } from "@trend-chaser/core";
 import {
   AiError,
   AiErrorCode,
   type AiEnrichmentOutput,
-} from "./types.js";
+} from "./types";
 import {
   callClaude,
   extractText,
   parseJsonResponse,
   logTokenUsage,
   CLAUDE_MODEL,
-} from "./anthropic.js";
-import { EnrichmentSchema } from "./schemas/enrichment.schema.js";
+} from "./anthropic";
+import { EnrichmentSchema } from "./schemas/enrichment.schema";
 import {
   buildDesignPromptsPrompt,
   PROMPT_VERSION,
   type DesignPromptsInput,
-} from "./prompts/design-prompts.prompt.js";
-import { runQualityGates } from "./quality-gates.js";
+} from "./prompts/design-prompts.prompt";
+import { runQualityGates } from "./quality-gates";
 
 export interface TrendEnrichmentInput {
   trendCandidateId: string;
