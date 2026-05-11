@@ -19,6 +19,14 @@
 - API routes: trends, trend detail, calendar, exports, health, and `POST /api/cron/daily-scan` (live — calls `runDailyScan`, auth-guarded by `CRON_SECRET`). `GET` handler added so Vercel Cron (which sends GET) also works.
 - `apps/web/vercel.json` created: cron at `/api/cron/daily-scan` on schedule `0 9 * * *` (09:00 UTC daily).
 - `@trend-chaser/jobs` (+ peer deps core/ai/collectors) added to `apps/web/package.json`. **0 type errors across all files.**
+- **Vercel build fixed (series of fixes applied):**
+  - Removed `.js` extensions from all relative imports across 25 TypeScript files in `packages/ai`, `packages/core`, `packages/collectors`, `packages/jobs` (Turbopack cannot resolve `.js`-suffixed imports).
+  - `apps/web/lib/api-client.ts`: all `fetch()` calls now use `BASE_URL` (`NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"`) — no more relative URLs during SSR.
+  - `apps/web/next.config.ts`: `NEXT_PUBLIC_APP_URL` fallback added to `env` config.
+  - `apps/web/app/not-found.tsx`: custom 404 page added — bypasses root layout during `/_not-found` prerendering.
+  - `apps/web/components/convex-client-provider.tsx`: new `"use client"` provider with module-level `new ConvexReactClient(url ?? "https://placeholder.convex.cloud")` — valid absolute URL at all times so constructor never throws at build time.
+  - `apps/web/app/layout.tsx`: updated to import `ConvexClientProvider` from `@/components/convex-client-provider`.
+  - All 7 `app/(dashboard)/*/page.tsx` files: `export const dynamic = "force-dynamic"` added — authenticated live-data pages are never statically prerendered.
 
 ### Convex
 - Schema: `trendSignals` (seed/watchlist compat), `trends` (pipeline-native), `calendarEvents` (pipeline schema), `platformSnapshots`, `scanRuns` (pipeline schema), `watchlist`.
@@ -90,11 +98,12 @@ Pipeline status values (string, not enum):
 - [x] `apps/web` typecheck: **0 errors**. All prior type issues resolved.
 - [x] `POST /api/cron/daily-scan` wired to `runDailyScan` from `@trend-chaser/jobs`. `GET` handler added for Vercel Cron compatibility.
 - [x] `vercel.json` created: cron schedule `0 9 * * *`.
-- [ ] Set `CRON_SECRET` env var in Vercel project settings + add to `.env.example`.
+- [x] Vercel build passing: `.js` import extensions removed, absolute URLs enforced, Convex client uses placeholder fallback, `not-found.tsx` created, dashboard pages force-dynamic.
+- [ ] Set `CRON_SECRET` + `NEXT_PUBLIC_CONVEX_URL` + `NEXT_PUBLIC_APP_URL` env vars in Vercel project settings; add all to `.env.example`.
 - [ ] Wire `TopBar` "Run scan" button to `POST /api/cron/daily-scan`.
 - [ ] Persist `/settings` values with Convex user preferences.
 - [ ] Add "Add to watchlist" actions to `TrendCard` and `/trends/[trendId]`.
-- [ ] Add custom `app/not-found.tsx` and loading skeletons for Convex-backed pages.
+- [ ] Add loading skeletons for Convex-backed pages.
 
 ### Pipeline
 - [x] `packages/jobs` fully wired: `@trend-chaser/jobs` in `apps/web/package.json`; `runDailyScan` called from cron route.
