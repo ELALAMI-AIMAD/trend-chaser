@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { TopBar } from "@/components/app-shell/top-bar";
 import { CalendarMonth } from "@/components/calendar/calendar-month";
 import { calendarOpportunities } from "@/lib/seed-data";
