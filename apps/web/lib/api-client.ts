@@ -2,8 +2,11 @@ import type { TrendSignal, CalendarOpportunity } from "./seed-data";
 
 // ─── Base fetch ───────────────────────────────────────────────────────────────
 
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+
 async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(path, {
+  const url = path.startsWith("/") ? `${BASE_URL}${path}` : path;
+  const res = await fetch(url, {
     headers: { "Content-Type": "application/json" },
     ...init
   });
@@ -52,7 +55,7 @@ export type ExportFormat = "csv" | "markdown" | "ics";
 export type ExportScope = "trends" | "calendar" | "prompts";
 
 export async function triggerExport(format: ExportFormat, scope: ExportScope): Promise<Blob> {
-  const res = await fetch(`/api/exports?format=${format}&scope=${scope}`);
+  const res = await fetch(`${BASE_URL}/api/exports?format=${format}&scope=${scope}`);
   if (!res.ok) throw new Error(`Export failed: ${res.statusText}`);
   return res.blob();
 }
