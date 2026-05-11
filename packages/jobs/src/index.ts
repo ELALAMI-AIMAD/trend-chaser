@@ -13,21 +13,21 @@
  * @see packages/collectors for data sources
  */
 
-export { runDailyScan } from "./scan-orchestrator.js"
+export { runDailyScan } from "./scan-orchestrator"
 
 export type {
   ScanRun,
   ScanRunStatus,
   ScanOptions,
   ScanResult,
-} from "./types.js"
+} from "./types"
 
 export {
   isRetryable,
   withRetry,
   RETRY_DELAYS,
   MAX_RETRIES,
-} from "./retry-policy.js"
+} from "./retry-policy"
 
 export {
   addFailedJob,
@@ -36,9 +36,9 @@ export {
   getDeadLetterStats,
   clearFailedJobs,
   retryFailedJobs,
-} from "./dead-letter.js"
+} from "./dead-letter"
 
 export type {
   FailedJob,
   DeadLetterStats,
-} from "./dead-letter.js"
+} from "./dead-letter"

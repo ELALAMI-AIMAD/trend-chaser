@@ -14,8 +14,8 @@ import {
   generateCalendarNiches,
   generateTrendEnrichment,
 } from "@trend-chaser/ai"
-import { addFailedJob } from "./dead-letter.js"
-import type { ScanOptions, ScanResult, ScanRun, ScanRunStatus } from "./types.js"
+import { addFailedJob } from "./dead-letter"
+import type { ScanOptions, ScanResult, ScanRun, ScanRunStatus } from "./types"
 
 type Candidate = {
   normalizedPhrase: string
