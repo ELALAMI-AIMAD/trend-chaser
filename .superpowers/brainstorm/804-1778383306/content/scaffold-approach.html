@@ -1,0 +1,78 @@
+<h2>How should the 6 new pages share their shell?</h2>
+<p class="subtitle">The sidebar + topbar exist only in <code>page.tsx</code> today. Picking the right pattern now avoids duplication across all 6 new pages.</p>
+
+<div class="options">
+
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Shared layout — Recommended</h3>
+      <p>Extract sidebar + topbar into components. A single <code>app/(dashboard)/layout.tsx</code> wraps all pages. Each page is pure content only.</p>
+      <div style="margin-top:14px;font-family:monospace;font-size:0.78rem;line-height:1.8;background:rgba(255,255,255,0.04);border-radius:8px;padding:12px;border:1px solid rgba(255,255,255,0.08)">
+        app/<br>
+        &nbsp;&nbsp;<strong>(dashboard)/</strong><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<strong>layout.tsx</strong> ← sidebar + topbar live here<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;page.tsx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← dashboard content only<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;trends/page.tsx<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;calendar/page.tsx<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;watchlist/page.tsx<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;prompts/page.tsx<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;scan-runs/page.tsx<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;settings/page.tsx<br>
+        components/<br>
+        &nbsp;&nbsp;app-shell/<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;sidebar.tsx<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;top-bar.tsx
+      </div>
+      <div class="pros-cons" style="margin-top:12px">
+        <div class="pros"><h4>Pros</h4><ul><li>Change nav once, all pages update</li><li>Pages stay small &amp; focused</li><li>Clean RSC boundary</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Requires light refactor of existing page.tsx</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Copy-paste shell — Quick</h3>
+      <p>Keep the existing pattern. Each of the 6 new pages repeats the sidebar + topbar inline, like the current <code>page.tsx</code>.</p>
+      <div style="margin-top:14px;font-family:monospace;font-size:0.78rem;line-height:1.8;background:rgba(255,255,255,0.04);border-radius:8px;padding:12px;border:1px solid rgba(255,255,255,0.08)">
+        app/<br>
+        &nbsp;&nbsp;page.tsx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← sidebar + content<br>
+        &nbsp;&nbsp;trends/<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;page.tsx &nbsp;&nbsp;&nbsp;← sidebar + content (copy)<br>
+        &nbsp;&nbsp;calendar/<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;page.tsx &nbsp;&nbsp;&nbsp;← sidebar + content (copy)<br>
+        &nbsp;&nbsp;… × 6 pages<br>
+        <br>
+        <span style="color:rgba(255,100,100,0.8)">⚠ Nav change = edit 7 files</span>
+      </div>
+      <div class="pros-cons" style="margin-top:12px">
+        <div class="pros"><h4>Pros</h4><ul><li>No refactor needed</li><li>Every page is self-contained</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Sidebar duplicated 7×</li><li>Hard to maintain</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Layout + strict RSC/client split</h3>
+      <p>Like A, but with an explicit RSC/client boundary. Sidebar is a server component; topbar (Clerk buttons) is a <code>'use client'</code> island. Most performant, most architectural.</p>
+      <div style="margin-top:14px;font-family:monospace;font-size:0.78rem;line-height:1.8;background:rgba(255,255,255,0.04);border-radius:8px;padding:12px;border:1px solid rgba(255,255,255,0.08)">
+        components/app-shell/<br>
+        &nbsp;&nbsp;sidebar.tsx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← <strong>Server Component</strong><br>
+        &nbsp;&nbsp;top-bar.tsx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← <strong>'use client'</strong> (Clerk, search)<br>
+        &nbsp;&nbsp;mobile-nav.tsx &nbsp;&nbsp;← <strong>'use client'</strong> (toggle)<br>
+        <br>
+        app/(dashboard)/layout.tsx<br>
+        &nbsp;&nbsp;↳ composes all three above
+      </div>
+      <div class="pros-cons" style="margin-top:12px">
+        <div class="pros"><h4>Pros</h4><ul><li>Optimal bundle splits</li><li>Clean boundaries, easier to test</li><li>Production-ready architecture</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Most setup work upfront</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>

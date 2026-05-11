@@ -1,0 +1,25 @@
+{
+  "name": "trend-chaser",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/web",
+    "packages/core",
+    "packages/ai",
+    "packages/collectors",
+    "packages/jobs"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace @trend-chaser/web",
+    "build": "npm run build --workspace @trend-chaser/web",
+    "lint": "npm run lint --workspace @trend-chaser/web",
+    "typecheck": "npm run typecheck --workspace @trend-chaser/web",
+    "convex:dev": "npm run convex:dev --workspace @trend-chaser/web",
+    "convex:codegen": "npm run convex:codegen --workspace @trend-chaser/web",
+    "convex:deploy": "npm run convex:deploy --workspace @trend-chaser/web"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  }
+}
