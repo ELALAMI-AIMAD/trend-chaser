@@ -1,5 +1,6 @@
 import { Flame } from "lucide-react";
 import { NavList } from "./nav-list";
+import { ScanBadge } from "./scan-badge";
 
 export function Sidebar() {
   return (
@@ -17,10 +18,7 @@ export function Sidebar() {
       <NavList />
 
       <div className="sidebar-footer">
-        <div className="scan-badge">
-          <span className="scan-dot" aria-hidden />
-          <span>Last scan: today 00:49</span>
-        </div>
+        <ScanBadge />
       </div>
     </aside>
   );

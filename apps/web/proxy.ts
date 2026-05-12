@@ -9,7 +9,9 @@ const shouldBypassClerkInDev = process.env.NODE_ENV === "development" && !isCler
 const isPublicRoute = createRouteMatcher([
   "/sign-in(.*)",
   "/sign-up(.*)",
-  "/api/health"
+  "/api/health",
+  "/api/cron(.*)",
+  "/api/trends(.*)",
 ]);
 
 const clerkProxy = clerkMiddleware(async (auth, req) => {

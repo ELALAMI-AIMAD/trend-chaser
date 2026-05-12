@@ -177,7 +177,8 @@ describe("CalendarCollector.collect — sort order", () => {
     const result = await collector.collect(testInput)
 
     expect(result[0]!.title).toBe("New Year's Day")
-    expect(result[1]!.title).toBe("Martin Luther King Jr. Day")
+    expect(result[1]!.title).toBe("Dry January")
+    expect(result[2]!.title).toBe("Martin Luther King Jr. Day")
   })
 
   it("daysUntilEvent values are non-decreasing", async () => {
@@ -260,6 +261,24 @@ describe("CalendarCollector.collect — Independence Day end-to-end", () => {
     expect(windows.amazon.end).toBe("2026-06-06T00:00:00.000Z")
   })
 
+  it("maps awareness niche events with specific categories and upload windows", async () => {
+    vi.setSystemTime(new Date(Date.UTC(2026, 0, 1)))
+
+    const result = await collector.collect(testInput)
+    const mentalHealth = result.find((e) => e.title === "Mental Health Awareness Month")
+    const pride = result.find((e) => e.title === "LGBTQ+ Pride Month")
+    const earthMonth = result.find((e) => e.title === "Earth Month")
+    const nurses = result.find((e) => e.title === "National Nurses Week")
+
+    expect(mentalHealth!.metrics["category"]).toBe("health")
+    expect(pride!.metrics["category"]).toBe("social_cause")
+    expect(earthMonth!.metrics["category"]).toBe("environment")
+    expect(nurses!.metrics["category"]).toBe("profession")
+    expect(mentalHealth!.metrics["uploadWindows"]).toHaveProperty("amazon")
+    expect(mentalHealth!.metrics["uploadWindows"]).toHaveProperty("etsy")
+    expect(mentalHealth!.metrics["uploadWindows"]).toHaveProperty("redbubble")
+  })
+
   it("Independence Day raw field contains event data and daysUntilEvent", async () => {
     vi.setSystemTime(new Date(Date.UTC(2026, 0, 1)))
 
@@ -287,11 +306,11 @@ describe("CalendarCollector — configuration", () => {
     expect(collector.config.retries).toBe(0)
   })
 
-  it("returns 56 events when called from Jan 1 (all events are upcoming)", async () => {
+  it("returns 104 events when called from Jan 1 (all events are upcoming)", async () => {
     vi.setSystemTime(new Date(Date.UTC(2026, 0, 1)))
 
     const result = await collector.collect(testInput)
 
-    expect(result.length).toBe(56)
+    expect(result.length).toBe(104)
   })
 })

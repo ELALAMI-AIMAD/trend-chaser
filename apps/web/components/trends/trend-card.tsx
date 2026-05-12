@@ -1,5 +1,6 @@
 import { Copy } from "lucide-react";
 import Link from "next/link";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import type { TrendSignal } from "@/lib/seed-data";
 import { routes } from "@/lib/routes";
 import { temperatureLabel } from "@/lib/format";
@@ -10,9 +11,30 @@ type TrendCardProps = {
   showSafety?: boolean;
 };
 
+function SourceBadge({ isLive }: { isLive: boolean }) {
+  const label = isLive ? "Live" : "Demo";
+  const tooltip = isLive ? "Real-time from Reddit" : "Curated seed data";
+  const badge = (
+    <span className={`source-badge ${isLive ? "source-badge--live" : "source-badge--demo"}`}>
+      <span aria-hidden />
+      {label}
+    </span>
+  );
+
+  return (
+    <Tooltip>
+      <TooltipTrigger render={badge} />
+      <TooltipContent side="top" className="tooltip-dark">
+        {tooltip}
+      </TooltipContent>
+    </Tooltip>
+  );
+}
+
 export function TrendCard({ trend, showSafety = false }: TrendCardProps) {
   return (
     <article className="trend-card">
+      <SourceBadge isLive={trend.isLive === true} />
       <div className="trend-main">
         <div>
           <div className="badge-row">

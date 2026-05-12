@@ -24,12 +24,23 @@ export type TrendsQuery = {
   limit?: number;
 };
 
-export async function fetchTrends(query: TrendsQuery = {}): Promise<TrendSignal[]> {
+export type TrendsResponse = {
+  trends: TrendSignal[];
+  meta: {
+    total: number;
+    liveCount: number;
+    seedCount: number;
+    isLive: boolean;
+    lastFetched: string;
+  };
+};
+
+export async function fetchTrends(query: TrendsQuery = {}): Promise<TrendsResponse> {
   const params = new URLSearchParams();
   if (query.temperature) params.set("temperature", query.temperature);
   if (query.limit) params.set("limit", String(query.limit));
   const qs = params.size ? `?${params}` : "";
-  return apiFetch<TrendSignal[]>(`/api/trends${qs}`);
+  return apiFetch<TrendsResponse>(`/api/trends${qs}`);
 }
 
 export async function fetchTrend(id: string): Promise<TrendSignal> {

@@ -2,12 +2,13 @@
 export const dynamic = "force-dynamic";
 
 import { useQuery } from "convex/react";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { api } from "@/convex/_generated/api";
 import { TopBar } from "@/components/app-shell/top-bar";
 import { TrendCard } from "@/components/trends/trend-card";
 import { TrendTable } from "@/components/trends/trend-table";
-import { trendSignals, type TrendSignal, type Temperature } from "@/lib/seed-data";
+import { AWARENESS_NICHES, trendSignals, type TrendSignal, type Temperature } from "@/lib/seed-data";
 
 type ViewMode = "cards" | "table";
 type TempFilter = Temperature | "all";
@@ -65,26 +66,56 @@ function mapToSignal(doc: {
 }
 
 export default function TrendsPage() {
+  const searchParams = useSearchParams();
+  const nicheFilter = searchParams.get("niche");
+  const selectedNiche = AWARENESS_NICHES.find((niche) => niche.id === nicheFilter);
   const [tempFilter, setTempFilter] = useState<TempFilter>("all");
   const [actionFilter, setActionFilter] = useState<string>("All");
   const [view, setView] = useState<ViewMode>("cards");
 
   const convexTrends = useQuery(api.trends.list, {});
+  const awarenessSeedTrends = trendSignals.filter((trend) => trend.awarenessId);
 
-  const allTrends: TrendSignal[] =
+  const baseTrends: TrendSignal[] =
     convexTrends === undefined
-      ? []
+      ? nicheFilter
+        ? awarenessSeedTrends
+        : []
       : convexTrends.length > 0
         ? convexTrends.map(mapToSignal)
         : trendSignals;
 
-  const isLoading = convexTrends === undefined;
+  const allTrends: TrendSignal[] =
+    nicheFilter && convexTrends && convexTrends.length > 0
+      ? [
+          ...baseTrends,
+          ...awarenessSeedTrends.filter(
+            (seedTrend) => !baseTrends.some((trend) => trend.id === seedTrend.id)
+          )
+        ]
+      : baseTrends;
 
-  const filtered = allTrends.filter((t) => {
-    if (tempFilter !== "all" && t.temperature !== tempFilter) return false;
-    if (actionFilter !== "All" && t.action !== actionFilter) return false;
+  const isLoading = convexTrends === undefined && !nicheFilter;
+
+  const filtered = allTrends.filter((trend) => {
+    if (nicheFilter && trend.awarenessId !== nicheFilter) return false;
+    if (tempFilter !== "all" && trend.temperature !== tempFilter) return false;
+    if (actionFilter !== "All" && trend.action !== actionFilter) return false;
     return true;
   });
+
+  const sourceNote =
+    convexTrends === undefined
+      ? nicheFilter
+        ? " - awareness seed"
+        : ""
+      : convexTrends.length === 0
+        ? " - demo data"
+        : "";
+
+  const countText = isLoading
+    ? "Loading..."
+    : `${filtered.length} trend${filtered.length !== 1 ? "s" : ""} shown${sourceNote}`;
 
   return (
     <>
@@ -101,23 +132,23 @@ export default function TrendsPage() {
           }}
         >
           <div className="filter-bar">
-            {tempFilters.map((f) => (
+            {tempFilters.map((filter) => (
               <button
-                key={f.value}
-                className={`filter-chip ${tempFilter === f.value ? "active" : ""}`}
-                onClick={() => setTempFilter(f.value)}
+                key={filter.value}
+                className={`filter-chip ${tempFilter === filter.value ? "active" : ""}`}
+                onClick={() => setTempFilter(filter.value)}
               >
-                {f.label}
+                {filter.label}
               </button>
             ))}
             <div style={{ width: 1, height: 22, background: "var(--border)", margin: "0 2px" }} />
-            {actionFilters.map((a) => (
+            {actionFilters.map((action) => (
               <button
-                key={a}
-                className={`filter-chip ${actionFilter === a ? "active" : ""}`}
-                onClick={() => setActionFilter(a)}
+                key={action}
+                className={`filter-chip ${actionFilter === action ? "active" : ""}`}
+                onClick={() => setActionFilter(action)}
               >
-                {a}
+                {action}
               </button>
             ))}
           </div>
@@ -140,15 +171,19 @@ export default function TrendsPage() {
           </div>
         </div>
 
+        {selectedNiche && (
+          <p style={{ color: "var(--text-muted)", fontSize: "0.82rem", margin: 0 }}>
+            Filtered by awareness niche: {selectedNiche.name}
+          </p>
+        )}
+
         <p style={{ color: "var(--text-muted)", fontSize: "0.82rem", margin: 0 }}>
-          {isLoading
-            ? "Loading…"
-            : `${filtered.length} trend${filtered.length !== 1 ? "s" : ""} shown${convexTrends?.length === 0 ? " · demo data" : ""}`}
+          {countText}
         </p>
       </div>
 
       {isLoading ? (
-        <div className="empty-state" style={{ opacity: 0.5 }}>Loading trends…</div>
+        <div className="empty-state" style={{ opacity: 0.5 }}>Loading trends...</div>
       ) : filtered.length === 0 ? (
         <div className="empty-state">No trends match the current filters.</div>
       ) : view === "cards" ? (

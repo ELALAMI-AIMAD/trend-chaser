@@ -2,42 +2,105 @@ export const dynamic = "force-dynamic";
 
 import {
   ArrowUpRight,
-  Copy,
   ShieldCheck,
   Timer
 } from "lucide-react";
 import Link from "next/link";
+import { headers } from "next/headers";
+import { AwarenessStrip } from "@/components/awareness/awareness-strip";
 import { TopBar } from "@/components/app-shell/top-bar";
+import { TrendCard } from "@/components/trends/trend-card";
 import {
+  AWARENESS_NICHES,
   calendarOpportunities,
   kpis,
   pipelineSteps,
   platformSnapshots,
-  trendSignals,
-  type Temperature
+  trendSignals
 } from "@/lib/seed-data";
 import { routes } from "@/lib/routes";
-import { temperatureLabel } from "@/lib/format";
+import type { TrendsResponse } from "@/lib/api-client";
 
-export default function DashboardPage() {
+async function getRequestOrigin(): Promise<string> {
+  const headerList = await headers();
+  const host = headerList.get("x-forwarded-host") ?? headerList.get("host");
+
+  if (host) {
+    const protocol = headerList.get("x-forwarded-proto") ?? "http";
+    return `${protocol}://${host}`;
+  }
+
+  return process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+}
+
+function seedFallbackResponse(): TrendsResponse {
+  return {
+    trends: trendSignals,
+    meta: {
+      total: trendSignals.length,
+      liveCount: 0,
+      seedCount: trendSignals.length,
+      isLive: false,
+      lastFetched: new Date().toISOString()
+    }
+  };
+}
+
+async function loadDashboardTrends(): Promise<TrendsResponse> {
+  try {
+    const origin = await getRequestOrigin();
+    const response = await fetch(`${origin}${routes.api.trends}?limit=50`, {
+      cache: "no-store"
+    });
+
+    if (!response.ok) return seedFallbackResponse();
+
+    return (await response.json()) as TrendsResponse;
+  } catch {
+    return seedFallbackResponse();
+  }
+}
+
+export default async function DashboardPage() {
+  const { trends, meta } = await loadDashboardTrends();
+  const hotTrendCount = trends.filter((trend) => trend.temperature === "hot").length;
+  const statusLabel = meta.isLive ? "Live" : "Demo data";
+
   return (
     <>
       <TopBar title="Trend dashboard" eyebrow="Daily intelligence" />
 
       <section className="kpi-grid" aria-label="Daily scan summary">
-        {kpis.map((item) => (
-          <article className={`kpi-card tone-${item.tone}`} key={item.label}>
-            <div className="kpi-icon">
-              <item.icon size={18} aria-hidden />
-            </div>
-            <div>
-              <p>{item.label}</p>
-              <strong>{item.value}</strong>
-              <span>{item.delta}</span>
-            </div>
-          </article>
-        ))}
+        {kpis.map((item) => {
+          const isHotTrendsCard = item.label === "Hot trends";
+
+          return (
+            <article className={`kpi-card tone-${item.tone}`} key={item.label}>
+              <div className="kpi-icon">
+                <item.icon size={18} aria-hidden />
+              </div>
+              <div>
+                <p>{item.label}</p>
+                <strong>{isHotTrendsCard ? hotTrendCount : item.value}</strong>
+                {isHotTrendsCard ? (
+                  <span className={`kpi-live-status ${meta.isLive ? "live" : "demo"}`}>
+                    <span className="kpi-live-status-dot" aria-hidden />
+                    {statusLabel}
+                  </span>
+                ) : (
+                  <span>{item.delta}</span>
+                )}
+              </div>
+            </article>
+          );
+        })}
       </section>
+
+      <p className="live-source-summary">
+        Showing {meta.liveCount} live signals + {meta.seedCount} curated trends
+      </p>
+
+      <AwarenessStrip niches={AWARENESS_NICHES} />
 
       <section className="dashboard-grid">
         {/* Trend radar */}
@@ -54,48 +117,8 @@ export default function DashboardPage() {
           </div>
 
           <div className="trend-list">
-            {trendSignals.map((trend) => (
-              <article className="trend-card" key={trend.id}>
-                <div className="trend-main">
-                  <div>
-                    <div className="badge-row">
-                      <span className={`temp-badge ${trend.temperature}`}>
-                        {temperatureLabel[trend.temperature]}
-                      </span>
-                      <span className="quiet-badge">{trend.uploadWindow}</span>
-                      <span className="quiet-badge">{trend.action}</span>
-                    </div>
-                    <h3>
-                      <Link href={routes.trend(trend.id)}>{trend.phrase}</Link>
-                    </h3>
-                    <p>{trend.niche} / {trend.source}</p>
-                  </div>
-                  <button className="icon-button compact" aria-label={`Copy ${trend.phrase}`}>
-                    <Copy size={16} aria-hidden />
-                  </button>
-                </div>
-
-                <div className="score-row">
-                  <div>
-                    <span>Score</span>
-                    <strong>{trend.score}</strong>
-                  </div>
-                  <div>
-                    <span>Momentum</span>
-                    <strong>{trend.momentum}</strong>
-                  </div>
-                  <div>
-                    <span>Competition</span>
-                    <strong>{trend.competition}</strong>
-                  </div>
-                </div>
-
-                <div className="platform-row">
-                  {trend.platforms.map((platform) => (
-                    <span key={platform}>{platform}</span>
-                  ))}
-                </div>
-              </article>
+            {trends.map((trend) => (
+              <TrendCard key={trend.id} trend={trend} />
             ))}
           </div>
         </section>
