@@ -17,14 +17,15 @@ export function RunScanButton() {
       const response = await fetch("/api/cron/daily-scan", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${process.env.NEXT_PUBLIC_CRON_SECRET ?? "localDevSecret2026TrendChaser"}`,
+          "Authorization": `Bearer ${process.env.NEXT_PUBLIC_CRON_SECRET}`,
           "Content-Type": "application/json",
         },
       });
 
       if (!response.ok) {
-        const error = await response.text();
-        throw new Error(`Scan failed: ${response.status} ${error}`);
+        const text = await response.text();
+        console.error("Scan failed:", response.status, text);
+        throw new Error(`Scan failed: ${response.status}`);
       }
 
       const data = (await response.json()) as {
